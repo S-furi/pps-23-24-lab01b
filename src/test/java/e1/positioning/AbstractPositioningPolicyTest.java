@@ -1,4 +1,4 @@
-package e1;
+package e1.positioning;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-public abstract class PositioningPolicyTest {
+public abstract class AbstractPositioningPolicyTest {
     protected PositioningPolicy positioningPolicy;
     protected final int size = 5;
 
