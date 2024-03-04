@@ -7,26 +7,26 @@ import static org.junit.jupiter.api.Assertions.fail;
 import org.junit.jupiter.api.Test;
 
 public class LogicTest {
+    final int boardSize = 5;
+    private final Logics logics = new LogicsImpl(boardSize);
+
     @Test
     void testCreateLogic() {
-        final Logics logics = new LogicsImpl(5);
-        assertNotNull(logics);
+        final Logics newLogics = new LogicsImpl(this.boardSize);
+        assertNotNull(newLogics);
     }
 
     @Test
     void logicShouldContainOneKnight() {
-        final int boardSize = 5;
-        final Logics logic = new LogicsImpl(boardSize);
-        
         boolean knightFound = false;
 
-        for (int i = 0; i < boardSize; i++) {
-            for (int j = 0; j < boardSize; j++) {
-                if (knightFound == true && logic.hasKnight(i, j)) {
+        for (int i = 0; i < this.boardSize; i++) {
+            for (int j = 0; j < this.boardSize; j++) {
+                if (knightFound == true && this.logics.hasKnight(i, j)) {
                     fail("Logic's board should contain only one knight");
                 }
 
-                if (logic.hasKnight(i, j)) {
+                if (this.logics.hasKnight(i, j)) {
                     knightFound = true;
                 }
             }
