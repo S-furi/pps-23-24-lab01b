@@ -21,6 +21,11 @@ public class LogicTest {
     }
 
     @Test
+    void testLogicCreationWithSizeZeroThrowsException() {
+        assertThrows(IllegalArgumentException.class, () -> new LogicsImpl(0));
+    }
+
+    @Test
     void logicShouldContainOneKnight() {
         assertTrue(checkBoardHasOnlyOnePieceOfAKind(
             (i, j) -> this.logics.hasKnight(i, j),
@@ -62,6 +67,29 @@ public class LogicTest {
     void initialKingPositionShouldNotHitPawn() {
         final Pair<Integer, Integer> kingPosition = this.getPiecePosition((i, j) -> this.logics.hasKnight(i, j));
         assertFalse(this.logics.hit(kingPosition.getX(), kingPosition.getY()));
+    }
+
+    @Test
+    void testIllegalKnightMove() {
+        final Pair<Integer, Integer> kingPosition = this.getPiecePosition((i, j) -> this.logics.hasKnight(i, j));
+        int newYPosition = 0;
+        int newXPosition = 0;
+        
+        if (kingPosition.getX() == this.boardSize - 1 && kingPosition.getY() < this.boardSize - 1) {
+            newXPosition = kingPosition.getX() - 1;
+            newYPosition = kingPosition.getY() + 1;
+        } else if (kingPosition.getX() < this.boardSize - 1 && kingPosition.getY() == this.boardSize - 1) {
+            newXPosition = kingPosition.getX() + 1;
+            newYPosition = kingPosition.getY() - 1;
+        } else if (kingPosition.getX() == this.boardSize - 1 && kingPosition.getX() == this.boardSize - 1) {
+            newXPosition = kingPosition.getX() - 1;
+            newYPosition = kingPosition.getY() - 1;
+        } else {
+            newXPosition = kingPosition.getX() + 1;
+            newYPosition = kingPosition.getY() + 1;
+        }
+
+        assertFalse(this.logics.hit(newXPosition, newYPosition));
     }
 
     private final Pair<Integer, Integer> getPiecePosition(final BiPredicate<Integer, Integer> pieceCondition) {
