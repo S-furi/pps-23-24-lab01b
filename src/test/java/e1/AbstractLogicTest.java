@@ -27,7 +27,7 @@ public abstract class AbstractLogicTest {
     protected abstract Logics createLogic();
 
     @Test
-    void testCreateLogic() {
+    void testCreateLogicIsNotNull() {
         final Logics newLogics = new LogicsImpl(this.boardSize);
         assertNotNull(newLogics);
     }
