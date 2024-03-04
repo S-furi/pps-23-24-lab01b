@@ -8,7 +8,7 @@ import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 
 @TestInstance(Lifecycle.PER_CLASS)
-public class DeterministicLogicTest extends LogicTest {
+public class DeterministicLogicTest extends AbstractLogicTest {
 
     final Pair<Integer, Integer> knightPosition = new Pair<>(0, 0);
     final Pair<Integer, Integer> pawnPosition = new Pair<>(1, 2);

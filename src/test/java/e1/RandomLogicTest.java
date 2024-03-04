@@ -7,7 +7,7 @@ import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 
 @TestInstance(Lifecycle.PER_CLASS)
-public class RandomLogicTest extends LogicTest {
+public class RandomLogicTest extends AbstractLogicTest {
 
     @Override
     protected Logics createLogic() {
