@@ -1,4 +1,4 @@
-package e1;
+package e1.positioning;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -10,8 +10,10 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 
+import e1.Pair;
+
 @TestInstance(Lifecycle.PER_CLASS)
-public class RandomPositioningPolicyTest extends PositioningPolicyTest {
+public class RandomPositioningPolicyTest extends AbstractPositioningPolicyTest {
 
     private final long seed = 123;
     private final Random random = new Random(seed);
