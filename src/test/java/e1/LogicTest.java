@@ -1,6 +1,8 @@
 package e1;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
@@ -34,20 +36,44 @@ public class LogicTest {
         );
     }
 
-    private boolean checkBoardHasOnlyOnePieceOfAKind(final BiPredicate<Integer, Integer> condition, final String failMessage) {
+    private boolean checkBoardHasOnlyOnePieceOfAKind(final BiPredicate<Integer, Integer> pieceCondition, final String failMessage) {
         boolean found = false;
 
         for (int i = 0; i < this.boardSize; i++) {
             for (int j = 0; j < this.boardSize; j++) {
-                if (found && condition.test(i, j)) {
+                if (found && pieceCondition.test(i, j)) {
                     fail(failMessage);
                 }
 
-                if (condition.test(i, j)) {
+                if (pieceCondition.test(i, j)) {
                     found = true;
                 }
             }
         }
         return found;
+    }
+
+    @Test
+    void testOutOfBoundsIndexShouldThrowException() {
+        assertThrows(IndexOutOfBoundsException.class, () -> this.logics.hit(this.boardSize + 1, this.boardSize + 1));
+    }
+
+    @Test
+    void initialKingPositionShouldNotHitPawn() {
+        final Pair<Integer, Integer> kingPosition = this.getPiecePosition((i, j) -> this.logics.hasKnight(i, j));
+        assertFalse(this.logics.hit(kingPosition.getX(), kingPosition.getY()));
+    }
+
+    private final Pair<Integer, Integer> getPiecePosition(final BiPredicate<Integer, Integer> pieceCondition) {
+        for (int i = 0; i < this.boardSize; i++) {
+            for (int j = 0; j < this.boardSize; j++) {
+                if (pieceCondition.test(i, j)) {
+                    return new Pair<>(i, j);
+                }
+            }
+        }
+        // Having tested the presence of the two pieces in the above tests,
+        // the return statement below will never be yielded.
+        return new Pair<Integer,Integer>(-1, -1);
     }
 }
