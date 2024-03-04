@@ -13,7 +13,6 @@ import org.junit.jupiter.api.TestInstance.Lifecycle;
 @TestInstance(Lifecycle.PER_CLASS)
 public class RandomPositioningPolicyTest extends PositioningPolicyTest {
 
-    private final int size = 5;
     private final long seed = 123;
     private final Random random = new Random(seed);
     private final Pair<Integer, Integer> pawn = randomEmptyPosition();
