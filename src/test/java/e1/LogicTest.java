@@ -114,6 +114,12 @@ public class LogicTest {
     }
 
     @Test
+    void cannotCreateLogicWithOverlappingPieces() {
+        final Pair<Integer, Integer> pos = new Pair<>(0, 0);
+        assertThrows(IllegalArgumentException.class, () -> new LogicsImpl(boardSize, pos, pos));
+    }
+
+    @Test
     void testHitSuccess() {
         assertTrue(initialPositionLogic.hit(pawnPosition.getX(), pawnPosition.getY()));
     }
