@@ -1,5 +1,6 @@
 package e1;
 
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -60,7 +61,10 @@ public class LogicTest {
 
     @Test
     void testOutOfBoundsIndexShouldThrowException() {
-        assertThrows(IndexOutOfBoundsException.class, () -> this.logics.hit(this.boardSize + 1, this.boardSize + 1));
+        assertAll(
+            () -> assertThrows(IndexOutOfBoundsException.class, () -> this.logics.hit(this.boardSize + 1, this.boardSize + 1)),
+            () -> assertThrows(IndexOutOfBoundsException.class, () -> this.logics.hit(-1, -1))
+        );
     }
 
     @Test
