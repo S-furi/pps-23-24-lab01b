@@ -7,10 +7,14 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
+import java.util.Optional;
 import java.util.function.BiPredicate;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+
+import e1.positioning.PositioningPolicy;
+import e1.positioning.RandomPositioningPolicy;
 
 public abstract class AbstractLogicTest {
     protected final int boardSize = 5;
@@ -18,23 +22,27 @@ public abstract class AbstractLogicTest {
 
     protected final BiPredicate<Integer, Integer> knightPredicate = (i, j) -> this.logic.hasKnight(i, j);
     protected final BiPredicate<Integer, Integer> pawnPredicate = (i, j) -> this.logic.hasPawn(i, j);
+    protected PositioningPolicy positioningPolicy;
 
     @BeforeAll
     void setUp() {
         this.logic = createLogic();
+        this.positioningPolicy = createPositioningPolicy();
     }
 
     protected abstract Logics createLogic();
 
+    protected abstract PositioningPolicy createPositioningPolicy();
+
     @Test
     void testCreateLogicIsNotNull() {
-        final Logics newLogics = new LogicsImpl(this.boardSize);
+        final Logics newLogics = new LogicsImpl(this.boardSize, new RandomPositioningPolicy(this.boardSize, Optional.empty()));
         assertNotNull(newLogics);
     }
 
     @Test
     void testLogicCreationWithSizeZeroThrowsException() {
-        assertThrows(IllegalArgumentException.class, () -> new LogicsImpl(0));
+        assertThrows(IllegalArgumentException.class, () -> new LogicsImpl(0, this.positioningPolicy));
     }
 
     @Test

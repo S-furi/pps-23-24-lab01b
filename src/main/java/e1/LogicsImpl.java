@@ -1,35 +1,24 @@
 package e1;
 
-import java.util.*;
+import e1.positioning.PositioningPolicy;
 
 public class LogicsImpl implements Logics {
 	
 	private final Pair<Integer,Integer> pawn;
 	private Pair<Integer,Integer> knight;
-	private final Random random = new Random();
 	private final int size;
+	private final PositioningPolicy positioningPolicy;
 	 
-    public LogicsImpl(int size){
-    	this.size = size;
-        this.pawn = this.randomEmptyPosition();
-        this.knight = this.randomEmptyPosition();	
+	public LogicsImpl(final int size, final PositioningPolicy positioningPolicy) {
+		  if (size <= 1) {
+			throw new IllegalArgumentException("Cannot instanciate a grid with dimensions <= 1.");
+		  }
+		  this.size = size;
+		  this.positioningPolicy = positioningPolicy;
+		  this.knight = this.positioningPolicy.getKnightPosition();
+		  this.pawn = this.positioningPolicy.getPawnPosition();
     }
 
-	public LogicsImpl(int size, Pair<Integer, Integer> knightPosition, Pair<Integer, Integer> pawnPosition) {
-		this.size = size;
-		if (knightPosition.equals(pawnPosition)) {
-			throw new IllegalArgumentException("Knight should be placed in a different position than Pawn.");
-		}
-		this.knight = knightPosition;
-		this.pawn = pawnPosition;
-	}
-    
-	private final Pair<Integer,Integer> randomEmptyPosition(){
-    	Pair<Integer,Integer> pos = new Pair<>(this.random.nextInt(size),this.random.nextInt(size));
-    	// the recursive call below prevents clash with an existing pawn
-    	return this.pawn!=null && this.pawn.equals(pos) ? randomEmptyPosition() : pos;
-    }
-    
 	@Override
 	public boolean hit(int row, int col) {
 		if (row<0 || col<0 || row >= this.size || col >= this.size) {
