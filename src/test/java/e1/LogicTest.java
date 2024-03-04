@@ -69,28 +69,28 @@ public class LogicTest {
 
     @Test
     void initialKingPositionShouldNotHitPawn() {
-        final Pair<Integer, Integer> kingPosition = this.getPiecePosition((i, j) -> this.logics.hasKnight(i, j));
-        assertFalse(this.logics.hit(kingPosition.getX(), kingPosition.getY()));
+        final Pair<Integer, Integer> knightPosition = this.getPiecePosition((i, j) -> this.logics.hasKnight(i, j));
+        assertFalse(this.logics.hit(knightPosition.getX(), knightPosition.getY()));
     }
 
     @Test
     void testIllegalKnightMove() {
-        final Pair<Integer, Integer> kingPosition = this.getPiecePosition((i, j) -> this.logics.hasKnight(i, j));
+        final Pair<Integer, Integer> knightPosition = this.getPiecePosition((i, j) -> this.logics.hasKnight(i, j));
         int newYPosition = 0;
         int newXPosition = 0;
         
-        if (kingPosition.getX() == this.boardSize - 1 && kingPosition.getY() < this.boardSize - 1) {
-            newXPosition = kingPosition.getX() - 1;
-            newYPosition = kingPosition.getY() + 1;
-        } else if (kingPosition.getX() < this.boardSize - 1 && kingPosition.getY() == this.boardSize - 1) {
-            newXPosition = kingPosition.getX() + 1;
-            newYPosition = kingPosition.getY() - 1;
-        } else if (kingPosition.getX() == this.boardSize - 1 && kingPosition.getX() == this.boardSize - 1) {
-            newXPosition = kingPosition.getX() - 1;
-            newYPosition = kingPosition.getY() - 1;
+        if (knightPosition.getX() == this.boardSize - 1 && knightPosition.getY() < this.boardSize - 1) {
+            newXPosition = knightPosition.getX() - 1;
+            newYPosition = knightPosition.getY() + 1;
+        } else if (knightPosition.getX() < this.boardSize - 1 && knightPosition.getY() == this.boardSize - 1) {
+            newXPosition = knightPosition.getX() + 1;
+            newYPosition = knightPosition.getY() - 1;
+        } else if (knightPosition.getX() == this.boardSize - 1 && knightPosition.getX() == this.boardSize - 1) {
+            newXPosition = knightPosition.getX() - 1;
+            newYPosition = knightPosition.getY() - 1;
         } else {
-            newXPosition = kingPosition.getX() + 1;
-            newYPosition = kingPosition.getY() + 1;
+            newXPosition = knightPosition.getX() + 1;
+            newYPosition = knightPosition.getY() + 1;
         }
 
         assertFalse(this.logics.hit(newXPosition, newYPosition));
@@ -107,5 +107,14 @@ public class LogicTest {
         // Having tested the presence of the two pieces in the above tests,
         // the return statement below will never be yielded.
         return new Pair<Integer,Integer>(-1, -1);
+    }
+
+    @Test
+    void testConstructorWithIntialPositions() {
+        final Pair<Integer, Integer> knightPosition = new Pair<>(0, 0);
+        final Pair<Integer, Integer> pawnPosition = new Pair<>(1, 2);
+
+        final Logics logics = new LogicsImpl(boardSize, knightPosition, pawnPosition);
+        assertNotNull(logics);
     }
 }
