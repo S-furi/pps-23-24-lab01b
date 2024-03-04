@@ -15,6 +15,9 @@ public class LogicTest {
     final int boardSize = 5;
     private final Logics randomPositionLogic = new LogicsImpl(boardSize);
 
+    private final BiPredicate<Integer, Integer> knightPredicate = (i, j) -> this.randomPositionLogic.hasKnight(i, j);
+    private final BiPredicate<Integer, Integer> pawnPredicate = (i, j) -> this.randomPositionLogic.hasPawn(i, j);
+
     final Pair<Integer, Integer> knightPosition = new Pair<>(0, 0);
     final Pair<Integer, Integer> pawnPosition = new Pair<>(1, 2);
     final Logics initialPositionLogic = new LogicsImpl(boardSize, knightPosition, pawnPosition);
@@ -32,18 +35,12 @@ public class LogicTest {
 
     @Test
     void logicShouldContainOneKnight() {
-        assertTrue(checkBoardHasOnlyOnePieceOfAKind(
-            (i, j) -> this.randomPositionLogic.hasKnight(i, j),
-            "Logic's board should contain only one knight.")
-        );
+        assertTrue(checkBoardHasOnlyOnePieceOfAKind(this.knightPredicate, "Logic's board should contain only one knight."));
     }
 
     @Test
     void logicShouldContainOnePawn() {
-        assertTrue(checkBoardHasOnlyOnePieceOfAKind(
-            (i, j) -> this.randomPositionLogic.hasPawn(i, j),
-            "Logic's board should contain only one pawn.")
-        );
+        assertTrue(checkBoardHasOnlyOnePieceOfAKind(this.pawnPredicate, "Logic's board should contain only one pawn."));
     }
 
     private boolean checkBoardHasOnlyOnePieceOfAKind(final BiPredicate<Integer, Integer> pieceCondition, final String failMessage) {
@@ -54,7 +51,6 @@ public class LogicTest {
                 if (found && pieceCondition.test(i, j)) {
                     fail(failMessage);
                 }
-
                 if (pieceCondition.test(i, j)) {
                     found = true;
                 }
@@ -73,13 +69,13 @@ public class LogicTest {
 
     @Test
     void initialKingPositionShouldNotHitPawn() {
-        final Pair<Integer, Integer> knightPosition = this.getPiecePosition((i, j) -> this.randomPositionLogic.hasKnight(i, j));
+        final Pair<Integer, Integer> knightPosition = this.getPiecePosition(this.knightPredicate);
         assertFalse(this.randomPositionLogic.hit(knightPosition.getX(), knightPosition.getY()));
     }
 
     @Test
     void testIllegalKnightMove() {
-        final Pair<Integer, Integer> knightPosition = this.getPiecePosition((i, j) -> this.randomPositionLogic.hasKnight(i, j));
+        final Pair<Integer, Integer> knightPosition = this.getPiecePosition(this.knightPredicate);
         int newYPosition = 0;
         int newXPosition = 0;
         
@@ -120,7 +116,7 @@ public class LogicTest {
     }
 
     @Test
-    void testHitSuccess() {
+    void testSuccessfulHit() {
         assertTrue(initialPositionLogic.hit(pawnPosition.getX(), pawnPosition.getY()));
     }
 }
