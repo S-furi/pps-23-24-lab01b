@@ -1,4 +1,6 @@
-package e1;
+package e1.positioning;
+
+import e1.Pair;
 
 public class DeterministicPositioningPolicy implements PositioningPolicy {
 
@@ -7,6 +9,9 @@ public class DeterministicPositioningPolicy implements PositioningPolicy {
     private final Pair<Integer, Integer> knightPosition;
 
     public DeterministicPositioningPolicy(int size, Pair<Integer, Integer> knightPosition, Pair<Integer, Integer> pawnPosition) {
+        if (size <= 1)  {
+            throw new IllegalArgumentException("Cannot instanciate a grid with dimensions <= 1.");
+        }
         this.size = size;
         checkPositions(knightPosition, pawnPosition);
         this.knightPosition = knightPosition;
