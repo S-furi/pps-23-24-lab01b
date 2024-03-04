@@ -26,6 +26,7 @@ public class RandomLogicTest extends AbstractLogicTest {
 
     @Test
     void testIllegalKnightMove() {
+        // TODO: make a better version of this test!
         final Pair<Integer, Integer> knightPosition = super.getPiecePosition(super.knightPredicate);
         int newYPosition = 0;
         int newXPosition = 0;
