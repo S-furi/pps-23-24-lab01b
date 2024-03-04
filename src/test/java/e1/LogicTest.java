@@ -22,8 +22,8 @@ public class LogicTest {
 
         for (int i = 0; i < this.boardSize; i++) {
             for (int j = 0; j < this.boardSize; j++) {
-                if (knightFound == true && this.logics.hasKnight(i, j)) {
-                    fail("Logic's board should contain only one knight");
+                if (knightFound && this.logics.hasKnight(i, j)) {
+                    fail("Logic's board should contain only one knight.");
                 }
 
                 if (this.logics.hasKnight(i, j)) {
@@ -33,5 +33,23 @@ public class LogicTest {
         }
 
         assertTrue(knightFound);
+    }
+
+    @Test
+    void logicShouldContainOnePawn() {
+        boolean pawnFound = false;
+
+        for (int i = 0; i < this.boardSize; i++) {
+            for (int j = 0; j < this.boardSize; j++){
+                if (pawnFound && this.logics.hasPawn(i, j)) {
+                    fail("Logic's board should contain only one pawn.");
+                }
+
+                if (this.logics.hasPawn(i, j)) {
+                    pawnFound = true;
+                }
+            }
+        }
+        assertTrue(pawnFound);
     }
 }
