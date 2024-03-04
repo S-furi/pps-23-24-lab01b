@@ -13,7 +13,11 @@ import org.junit.jupiter.api.Test;
 
 public class LogicTest {
     final int boardSize = 5;
-    private final Logics logics = new LogicsImpl(boardSize);
+    private final Logics randomPositionLogic = new LogicsImpl(boardSize);
+
+    final Pair<Integer, Integer> knightPosition = new Pair<>(0, 0);
+    final Pair<Integer, Integer> pawnPosition = new Pair<>(1, 2);
+    final Logics initialPositionLogic = new LogicsImpl(boardSize, knightPosition, pawnPosition);
 
     @Test
     void testCreateLogic() {
@@ -29,7 +33,7 @@ public class LogicTest {
     @Test
     void logicShouldContainOneKnight() {
         assertTrue(checkBoardHasOnlyOnePieceOfAKind(
-            (i, j) -> this.logics.hasKnight(i, j),
+            (i, j) -> this.randomPositionLogic.hasKnight(i, j),
             "Logic's board should contain only one knight.")
         );
     }
@@ -37,7 +41,7 @@ public class LogicTest {
     @Test
     void logicShouldContainOnePawn() {
         assertTrue(checkBoardHasOnlyOnePieceOfAKind(
-            (i, j) -> this.logics.hasPawn(i, j),
+            (i, j) -> this.randomPositionLogic.hasPawn(i, j),
             "Logic's board should contain only one pawn.")
         );
     }
@@ -62,20 +66,20 @@ public class LogicTest {
     @Test
     void testOutOfBoundsIndexShouldThrowException() {
         assertAll(
-            () -> assertThrows(IndexOutOfBoundsException.class, () -> this.logics.hit(this.boardSize + 1, this.boardSize + 1)),
-            () -> assertThrows(IndexOutOfBoundsException.class, () -> this.logics.hit(-1, -1))
+            () -> assertThrows(IndexOutOfBoundsException.class, () -> this.randomPositionLogic.hit(this.boardSize + 1, this.boardSize + 1)),
+            () -> assertThrows(IndexOutOfBoundsException.class, () -> this.randomPositionLogic.hit(-1, -1))
         );
     }
 
     @Test
     void initialKingPositionShouldNotHitPawn() {
-        final Pair<Integer, Integer> knightPosition = this.getPiecePosition((i, j) -> this.logics.hasKnight(i, j));
-        assertFalse(this.logics.hit(knightPosition.getX(), knightPosition.getY()));
+        final Pair<Integer, Integer> knightPosition = this.getPiecePosition((i, j) -> this.randomPositionLogic.hasKnight(i, j));
+        assertFalse(this.randomPositionLogic.hit(knightPosition.getX(), knightPosition.getY()));
     }
 
     @Test
     void testIllegalKnightMove() {
-        final Pair<Integer, Integer> knightPosition = this.getPiecePosition((i, j) -> this.logics.hasKnight(i, j));
+        final Pair<Integer, Integer> knightPosition = this.getPiecePosition((i, j) -> this.randomPositionLogic.hasKnight(i, j));
         int newYPosition = 0;
         int newXPosition = 0;
         
@@ -93,7 +97,7 @@ public class LogicTest {
             newYPosition = knightPosition.getY() + 1;
         }
 
-        assertFalse(this.logics.hit(newXPosition, newYPosition));
+        assertFalse(this.randomPositionLogic.hit(newXPosition, newYPosition));
     }
 
     private final Pair<Integer, Integer> getPiecePosition(final BiPredicate<Integer, Integer> pieceCondition) {
@@ -110,11 +114,7 @@ public class LogicTest {
     }
 
     @Test
-    void testConstructorWithIntialPositions() {
-        final Pair<Integer, Integer> knightPosition = new Pair<>(0, 0);
-        final Pair<Integer, Integer> pawnPosition = new Pair<>(1, 2);
-
-        final Logics logics = new LogicsImpl(boardSize, knightPosition, pawnPosition);
-        assertNotNull(logics);
+    void testHitSuccess() {
+        assertTrue(initialPositionLogic.hit(pawnPosition.getX(), pawnPosition.getY()));
     }
 }
