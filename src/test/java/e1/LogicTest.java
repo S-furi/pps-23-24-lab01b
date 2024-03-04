@@ -4,6 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
+import java.util.function.BiPredicate;
+
 import org.junit.jupiter.api.Test;
 
 public class LogicTest {
@@ -18,38 +20,34 @@ public class LogicTest {
 
     @Test
     void logicShouldContainOneKnight() {
-        boolean knightFound = false;
-
-        for (int i = 0; i < this.boardSize; i++) {
-            for (int j = 0; j < this.boardSize; j++) {
-                if (knightFound && this.logics.hasKnight(i, j)) {
-                    fail("Logic's board should contain only one knight.");
-                }
-
-                if (this.logics.hasKnight(i, j)) {
-                    knightFound = true;
-                }
-            }
-        }
-
-        assertTrue(knightFound);
+        assertTrue(checkBoardHasOnlyOnePieceOfAKind(
+            (i, j) -> this.logics.hasKnight(i, j),
+            "Logic's board should contain only one knight.")
+        );
     }
 
     @Test
     void logicShouldContainOnePawn() {
-        boolean pawnFound = false;
+        assertTrue(checkBoardHasOnlyOnePieceOfAKind(
+            (i, j) -> this.logics.hasPawn(i, j),
+            "Logic's board should contain only one pawn.")
+        );
+    }
+
+    private boolean checkBoardHasOnlyOnePieceOfAKind(final BiPredicate<Integer, Integer> condition, final String failMessage) {
+        boolean found = false;
 
         for (int i = 0; i < this.boardSize; i++) {
-            for (int j = 0; j < this.boardSize; j++){
-                if (pawnFound && this.logics.hasPawn(i, j)) {
-                    fail("Logic's board should contain only one pawn.");
+            for (int j = 0; j < this.boardSize; j++) {
+                if (found && condition.test(i, j)) {
+                    fail(failMessage);
                 }
 
-                if (this.logics.hasPawn(i, j)) {
-                    pawnFound = true;
+                if (condition.test(i, j)) {
+                    found = true;
                 }
             }
         }
-        assertTrue(pawnFound);
+        return found;
     }
 }
