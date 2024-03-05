@@ -43,6 +43,8 @@ public class DeterministicPositioningPolicy implements PositioningPolicy {
 
     @Override
     public void moveKnight(final int row, final int col) {
-        this.knightPosition = new Pair<>(row, col);
+        if ((row >= 0 && col >= 0) && (row < this.size && col < this.size)) {
+            this.knightPosition = new Pair<>(row, col);
+        }
     }
 }
