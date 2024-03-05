@@ -70,14 +70,12 @@ public class DeterministicPositioningPolicyTest extends AbstractPositioningPolic
     void testMovementOutOfBoundsDoesNotChangeKnightPosition() {
         final Pair<Integer, Integer> negativeDestination = new Pair<>(-1, -1);
         final Pair<Integer, Integer> outOfBoundsDestination = new Pair<>(this.size + 1, this.size + 1);
-        final Pair<Integer, Integer> actualPosition = this.positioningPolicy.getKnightPosition();
 
         assertAll(
             () -> assertThrows(IndexOutOfBoundsException.class,
                 () -> this.positioningPolicy.moveKnight(negativeDestination.getX(), negativeDestination.getY())),
             () -> assertThrows(IndexOutOfBoundsException.class,
                 () -> this.positioningPolicy.moveKnight(outOfBoundsDestination.getX(), outOfBoundsDestination.getY()))
-
         );
     }
 }
