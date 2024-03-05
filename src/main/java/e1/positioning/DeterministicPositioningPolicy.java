@@ -6,7 +6,7 @@ public class DeterministicPositioningPolicy implements PositioningPolicy {
 
     private final int size;
     private final Pair<Integer, Integer> pawnPosition;
-    private final Pair<Integer, Integer> knightPosition;
+    private Pair<Integer, Integer> knightPosition;
 
     public DeterministicPositioningPolicy(int size, final Pair<Integer, Integer> knightPosition, final Pair<Integer, Integer> pawnPosition) {
         if (size <= 1)  {
@@ -39,5 +39,10 @@ public class DeterministicPositioningPolicy implements PositioningPolicy {
     @Override
     public Pair<Integer, Integer> getPawnPosition() {
         return this.pawnPosition;
+    }
+
+    @Override
+    public void moveKnight(final int row, final int col) {
+        this.knightPosition = new Pair<>(row, col);
     }
 }

@@ -4,8 +4,6 @@ import e1.positioning.PositioningPolicy;
 
 public class LogicsImpl implements Logics {
 	
-	private final Pair<Integer,Integer> pawn;
-	private Pair<Integer,Integer> knight;
 	private final int size;
 	private final PositioningPolicy positioningPolicy;
 	 
@@ -15,8 +13,6 @@ public class LogicsImpl implements Logics {
 		  }
 		  this.size = size;
 		  this.positioningPolicy = positioningPolicy;
-		  this.knight = this.positioningPolicy.getKnightPosition();
-		  this.pawn = this.positioningPolicy.getPawnPosition();
     }
 
 	@Override
@@ -25,22 +21,23 @@ public class LogicsImpl implements Logics {
 			throw new IndexOutOfBoundsException();
 		}
 		// Below a compact way to express allowed moves for the knight
-		int x = row-this.knight.getX();
-		int y = col-this.knight.getY();
+		final var knight = this.positioningPolicy.getKnightPosition();
+		int x = row - knight.getX();
+		int y = col - knight.getY();
 		if (x!=0 && y!=0 && Math.abs(x)+Math.abs(y)==3) {
-			this.knight = new Pair<>(row,col);
-			return this.pawn.equals(this.knight);
+			this.positioningPolicy.moveKnight(row, col);
+			return this.positioningPolicy.getPawnPosition().equals(this.positioningPolicy.getKnightPosition());
 		}
 		return false;
 	}
 
 	@Override
 	public boolean hasKnight(int row, int col) {
-		return this.knight.equals(new Pair<>(row,col));
+		return this.positioningPolicy.getKnightPosition().equals(new Pair<>(row,col));
 	}
 
 	@Override
 	public boolean hasPawn(int row, int col) {
-		return this.pawn.equals(new Pair<>(row,col));
+		return this.positioningPolicy.getPawnPosition().equals(new Pair<>(row,col));
 	}
 }

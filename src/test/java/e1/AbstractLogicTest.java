@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 import java.util.Optional;
 import java.util.function.BiPredicate;
 
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import e1.positioning.PositioningPolicy;
@@ -24,13 +24,13 @@ public abstract class AbstractLogicTest {
     protected final BiPredicate<Integer, Integer> pawnPredicate = (i, j) -> this.logic.hasPawn(i, j);
     protected PositioningPolicy positioningPolicy;
 
-    @BeforeAll
+    @BeforeEach
     void setUp() {
-        this.logic = createLogic();
         this.positioningPolicy = createPositioningPolicy();
+        this.logic = createLogic(this.positioningPolicy);
     }
 
-    protected abstract Logics createLogic();
+    protected abstract Logics createLogic(PositioningPolicy positioningPolicy);
 
     protected abstract PositioningPolicy createPositioningPolicy();
 

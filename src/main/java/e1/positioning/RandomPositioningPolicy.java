@@ -34,4 +34,9 @@ public class RandomPositioningPolicy implements PositioningPolicy {
     	// the recursive call below prevents clash with an existing pawn
     	return pawnPosition.isPresent() && pawnPosition.get().equals(pos) ? randomEmptyPosition(pawnPosition) : pos;
     }
+
+    @Override
+    public void moveKnight(final int row, final int col) {
+        this.positioningPolicy.moveKnight(row, col);
+    }
 }
