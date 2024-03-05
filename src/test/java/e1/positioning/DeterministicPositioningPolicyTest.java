@@ -6,12 +6,9 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
-import org.junit.jupiter.api.TestInstance.Lifecycle;
 
 import e1.Pair;
 
-@TestInstance(Lifecycle.PER_CLASS)
 public class DeterministicPositioningPolicyTest extends AbstractPositioningPolicyTest {
     final Pair<Integer, Integer> knightPosition = new Pair<>(0, 0);
     final Pair<Integer, Integer> pawnPosition = new Pair<>(1, 2);

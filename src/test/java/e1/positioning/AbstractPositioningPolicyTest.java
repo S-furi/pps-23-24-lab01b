@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import e1.Pair;
@@ -13,7 +13,7 @@ public abstract class AbstractPositioningPolicyTest {
     protected PositioningPolicy positioningPolicy;
     protected final int size = 5;
 
-    @BeforeAll
+    @BeforeEach
     void setUp() {
         this.positioningPolicy = createPositioningPolicy();
     }

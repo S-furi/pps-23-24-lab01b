@@ -7,12 +7,9 @@ import java.util.Optional;
 import java.util.Random;
 
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
-import org.junit.jupiter.api.TestInstance.Lifecycle;
 
 import e1.Pair;
 
-@TestInstance(Lifecycle.PER_CLASS)
 public class RandomPositioningPolicyTest extends AbstractPositioningPolicyTest {
 
     private final long seed = 123;
