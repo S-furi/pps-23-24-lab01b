@@ -2,6 +2,7 @@ package e1.positioning;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -47,5 +48,35 @@ public class DeterministicPositioningPolicyTest extends AbstractPositioningPolic
     @Test
     void testDeterministicPawnPosition() {
         assertEquals(this.pawnPosition, this.positioningPolicy.getPawnPosition());
+    }
+
+    @Test
+    void knightShouldMoveMultipleTimes() {
+        final Pair<Integer, Integer> initialPosition = this.positioningPolicy.getKnightPosition();
+        final Pair<Integer, Integer> movementStep = new Pair<>(1, 1);
+        final int movements = 3;
+        for (var i = 1; i <= movements; i++) {
+            this.positioningPolicy.moveKnight(movementStep.getX() * i, movementStep.getY() * i);
+        }
+
+        final Pair<Integer, Integer> expectedPosition = new Pair<>(movementStep.getX() * movements, movementStep.getY() * movements);
+        assertAll(
+            () -> assertNotEquals(initialPosition, this.positioningPolicy.getKnightPosition()),
+            () -> assertEquals(expectedPosition, this.positioningPolicy.getKnightPosition())
+        );
+    }
+
+    @Test
+    void testMovementOutOfBoundsDoesNotChangeKnightPosition() {
+        final Pair<Integer, Integer> startingPosition = this.positioningPolicy.getKnightPosition();
+        final Pair<Integer, Integer> negativeDestination = new Pair<>(-1, -1);
+        final Pair<Integer, Integer> outOfBoundsDestination = new Pair<>(this.size + 1, this.size + 1);
+        final Pair<Integer, Integer> actualPosition = this.positioningPolicy.getKnightPosition();
+
+        assertAll(
+            () -> assertNotEquals(negativeDestination, actualPosition),
+            () -> assertNotEquals(outOfBoundsDestination, actualPosition),
+            () -> assertEquals(startingPosition, actualPosition)
+        );
     }
 }
