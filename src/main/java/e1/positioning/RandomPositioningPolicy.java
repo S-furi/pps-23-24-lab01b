@@ -8,32 +8,30 @@ import e1.Pair;
 public class RandomPositioningPolicy implements PositioningPolicy {
     private final int size;
     private final Random random;
-    private final Pair<Integer, Integer> pawn;
-    private final Pair<Integer, Integer> knight;
+    private final DeterministicPositioningPolicy positioningPolicy;
+
 
     public RandomPositioningPolicy(final int size, final Optional<Long> seed) {
-        if (size <= 1)  {
-            throw new IllegalArgumentException("Cannot instanciate a grid with dimensions <= 1.");
-        }
         this.size = size;
         this.random = seed.isPresent() ? new Random(seed.get()) : new Random();
-        this.pawn = randomEmptyPosition();
-        this.knight = randomEmptyPosition();
+        final Pair<Integer, Integer> pawn = randomEmptyPosition(Optional.empty());
+        final Pair<Integer, Integer> knight = randomEmptyPosition(Optional.of(pawn));
+        this.positioningPolicy = new DeterministicPositioningPolicy(this.size, knight, pawn);
     }
 
     @Override
     public Pair<Integer, Integer> getKnightPosition() {
-        return this.knight;
+        return this.positioningPolicy.getKnightPosition();
     }
 
     @Override
     public Pair<Integer, Integer> getPawnPosition() {
-        return this.pawn;
+        return this.positioningPolicy.getPawnPosition();
     }
 
-	private final Pair<Integer,Integer> randomEmptyPosition(){
-    	final Pair<Integer,Integer> pos = new Pair<>(this.random.nextInt(size), this.random.nextInt(size));
+	private final Pair<Integer,Integer> randomEmptyPosition(final Optional<Pair<Integer, Integer>> pawnPosition) {
+    	final Pair<Integer,Integer> pos = new Pair<>(this.random.nextInt(this.size), this.random.nextInt(size));
     	// the recursive call below prevents clash with an existing pawn
-    	return this.pawn != null && this.pawn.equals(pos) ? randomEmptyPosition() : pos;
+    	return pawnPosition.isPresent() && pawnPosition.get().equals(pos) ? randomEmptyPosition(pawnPosition) : pos;
     }
 }
