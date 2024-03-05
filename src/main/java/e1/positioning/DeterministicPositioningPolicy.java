@@ -8,7 +8,7 @@ public class DeterministicPositioningPolicy implements PositioningPolicy {
     private final Pair<Integer, Integer> pawnPosition;
     private final Pair<Integer, Integer> knightPosition;
 
-    public DeterministicPositioningPolicy(int size, Pair<Integer, Integer> knightPosition, Pair<Integer, Integer> pawnPosition) {
+    public DeterministicPositioningPolicy(int size, final Pair<Integer, Integer> knightPosition, final Pair<Integer, Integer> pawnPosition) {
         if (size <= 1)  {
             throw new IllegalArgumentException("Cannot instanciate a grid with dimensions <= 1.");
         }
