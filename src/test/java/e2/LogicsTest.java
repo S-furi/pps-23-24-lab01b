@@ -7,7 +7,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
 import java.util.Random;
-import java.util.ArrayList;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -29,19 +28,19 @@ public class LogicsTest {
 
     @Test
     void logicsShouldHaveRightAmountOfMines() {
-        final List<Pair<Integer, Integer>> minesFound = this.extractMinesPosition();
+        final List<Pair<Integer, Integer>> minesFound = this.logics.getMinesPositions();
         assertEquals(numberOfMines, minesFound.size());
     }
 
     @Test
     void hittingAMineShouldReturnTrue() {
-        final List<Pair<Integer, Integer>> mines = this.extractMinesPosition();
+        final List<Pair<Integer, Integer>> mines = this.logics.getMinesPositions();
         assertTrue(this.logics.hit(mines.get(0)));
     }
 
     @Test
     void notHittingAMineShouldReturnFalse() {
-        final List<Pair<Integer, Integer>> mines = this.extractMinesPosition();
+        final List<Pair<Integer, Integer>> mines = this.logics.getMinesPositions();
         final Random random = new Random();
         Pair<Integer, Integer> pos = new Pair<>(random.nextInt(this.size), random.nextInt(this.size));
 
@@ -51,19 +50,4 @@ public class LogicsTest {
 
         assertFalse(this.logics.hit(pos));
     }
-
-    private List<Pair<Integer, Integer>> extractMinesPosition() {
-        final List<Pair<Integer, Integer>> minesFound = new ArrayList<>();
-
-        for (int i = 0; i < this.size; i++) {
-            for (int j = 0; j < this.size; j++) {
-                final Pair<Integer, Integer> pos = new Pair<Integer, Integer>(i, j);
-                if (logics.hasMine(pos)) {
-                    minesFound.add(pos);
-                }
-            }
-        }
-        return List.copyOf(minesFound);
-    }
-
 }

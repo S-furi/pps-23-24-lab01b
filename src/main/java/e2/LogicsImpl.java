@@ -17,11 +17,13 @@ public class LogicsImpl implements Logics {
         this.size = size;
         this.numberOfMines = numberOfMines;
         this.mines = this.generateMines();
+        System.out.println("Generated mines at positions:");
+        this.getMinesPositions().forEach(System.out::println);
     }
     
     @Override
     public boolean hasMine(final Pair<Integer, Integer> position) {
-        return this.mines.stream().anyMatch(mine -> mine.getPosition().equals(position));
+        return this.getMinesPositions().stream().anyMatch(pos -> pos.equals(position));
     }
     
     private List<? extends Cell> generateMines() {
@@ -44,4 +46,10 @@ public class LogicsImpl implements Logics {
     public boolean hit(final Pair<Integer, Integer> position) {
         return this.hasMine(position);
     }
+
+    @Override
+    public List<Pair<Integer, Integer>> getMinesPositions() {
+        return this.mines.stream().map(mine -> mine.getPosition()).toList();
+    }
 }
+    
