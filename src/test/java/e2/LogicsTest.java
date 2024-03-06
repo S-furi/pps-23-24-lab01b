@@ -1,10 +1,12 @@
 package e2;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
+import java.util.Random;
 import java.util.ArrayList;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -37,6 +39,19 @@ public class LogicsTest {
         assertTrue(this.logics.hit(mines.get(0)));
     }
 
+    @Test
+    void notHittingAMineShouldReturnFalse() {
+        final List<Pair<Integer, Integer>> mines = this.extractMinesPosition();
+        final Random random = new Random();
+        Pair<Integer, Integer> pos = new Pair<>(random.nextInt(this.size), random.nextInt(this.size));
+
+        while (mines.contains(pos))  {
+            pos = new Pair<>(random.nextInt(this.size), random.nextInt(this.size));
+        }
+
+        assertFalse(this.logics.hit(pos));
+    }
+
     private List<Pair<Integer, Integer>> extractMinesPosition() {
         final List<Pair<Integer, Integer>> minesFound = new ArrayList<>();
 
@@ -50,4 +65,5 @@ public class LogicsTest {
         }
         return List.copyOf(minesFound);
     }
+
 }
