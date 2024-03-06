@@ -17,10 +17,7 @@ public class DeterministicLogicTest extends AbstractLogicTest {
 
     @Override
     protected Logics createLogic(final PositioningPolicy positioningPolicy) {
-        return new LogicsImpl(
-            super.boardSize,
-            positioningPolicy
-        );
+        return new LogicsImpl(this.boardSize, this.positioningPolicy, super.hitStrategy);
     }
 
     @Override
@@ -33,7 +30,7 @@ public class DeterministicLogicTest extends AbstractLogicTest {
         final Pair<Integer, Integer> pos = new Pair<>(0, 0);
          
         assertThrows(IllegalArgumentException.class, () -> 
-            new LogicsImpl(this.boardSize, new DeterministicPositioningPolicy(this.boardSize, pos, pos))
+            new LogicsImpl(this.boardSize, new DeterministicPositioningPolicy(this.boardSize, pos, pos), super.hitStrategy)
         );
     }
 

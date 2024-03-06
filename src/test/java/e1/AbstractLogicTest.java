@@ -13,6 +13,8 @@ import java.util.function.BiPredicate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import e1.hit.HitStrategy;
+import e1.hit.HitStrategyFactory;
 import e1.positioning.PositioningPolicy;
 import e1.positioning.RandomPositioningPolicy;
 
@@ -23,6 +25,7 @@ public abstract class AbstractLogicTest {
     protected final BiPredicate<Integer, Integer> knightPredicate = (i, j) -> this.logic.hasKnight(i, j);
     protected final BiPredicate<Integer, Integer> pawnPredicate = (i, j) -> this.logic.hasPawn(i, j);
     protected PositioningPolicy positioningPolicy;
+    protected final HitStrategy hitStrategy = HitStrategyFactory.createStandardKnightHitStrategy();
 
     @BeforeEach
     void setUp() {
@@ -36,13 +39,21 @@ public abstract class AbstractLogicTest {
 
     @Test
     void testCreateLogicIsNotNull() {
-        final Logics newLogics = new LogicsImpl(this.boardSize, new RandomPositioningPolicy(this.boardSize, Optional.empty()));
+        final Logics newLogics = new LogicsImpl(
+            this.boardSize,
+            new RandomPositioningPolicy(this.boardSize, Optional.empty()),
+            this.hitStrategy
+        );
         assertNotNull(newLogics);
     }
 
     @Test
     void testLogicCreationWithSizeZeroThrowsException() {
-        assertThrows(IllegalArgumentException.class, () -> new LogicsImpl(0, this.positioningPolicy));
+        assertThrows(IllegalArgumentException.class, () -> new LogicsImpl(
+            0,
+            new RandomPositioningPolicy(0, Optional.empty()),
+            this.hitStrategy
+        ));
     }
 
     @Test

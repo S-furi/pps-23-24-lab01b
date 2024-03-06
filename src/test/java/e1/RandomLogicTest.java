@@ -13,7 +13,7 @@ public class RandomLogicTest extends AbstractLogicTest {
 
     @Override
     protected Logics createLogic(final PositioningPolicy positioningPolicy) {
-        return new LogicsImpl(super.boardSize, positioningPolicy);
+        return new LogicsImpl(this.boardSize, this.positioningPolicy, super.hitStrategy);
     }
 
     @Override

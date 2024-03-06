@@ -2,6 +2,7 @@ package e1;
 
 import javax.swing.*;
 
+import e1.hit.HitStrategyFactory;
 import e1.positioning.RandomPositioningPolicy;
 
 import java.util.*;
@@ -17,7 +18,11 @@ public class GUI extends JFrame {
     private final static int SIZE = 5;
     
     public GUI() {
-        this.logics = new LogicsImpl(SIZE, new RandomPositioningPolicy(SIZE, Optional.empty()));
+        this.logics = new LogicsImpl(
+            SIZE,
+            new RandomPositioningPolicy(SIZE, Optional.empty()),
+            HitStrategyFactory.createStandardKnightHitStrategy()
+        );
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setSize(100*SIZE, 100*SIZE);
         
