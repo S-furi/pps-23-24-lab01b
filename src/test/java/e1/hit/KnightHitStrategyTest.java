@@ -19,7 +19,7 @@ public class KnightHitStrategyTest {
 
     @BeforeEach
     void setUp() {
-        hitStrategy = new KnightHitStrategy();
+        hitStrategy = HitStrategyFactory.createStandardKnightHitStrategy();
     }
 
     @Test
