@@ -7,9 +7,14 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
 import java.util.Random;
+import java.util.stream.IntStream;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import e2.cell.Cell;
+import e2.cell.EmptyCell;
+import e2.cell.MineCell;
 
 public class LogicsTest {
     private final int size = 7;
@@ -49,5 +54,18 @@ public class LogicsTest {
         }
 
         assertFalse(this.logics.hit(pos));
+    }
+
+    @Test
+    void testCellFullySurroundedByMines() {
+        final var onlyMinesLogics = new LogicsImpl(this.size, (this.size * this.size) - 1);
+
+        final Cell cell = IntStream.range(0, this.size * this.size)
+            .mapToObj(i -> new Pair<Integer, Integer>(i / this.size, i % this.size))
+            .filter(pos -> !onlyMinesLogics.hasMine(pos))
+            .findAny()
+            .map(pos -> new EmptyCell(pos)).get();
+
+        assertEquals(8, onlyMinesLogics.getNumberOfAdjacentMines(cell.getPosition()));
     }
 }

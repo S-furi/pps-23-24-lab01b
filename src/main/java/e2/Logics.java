@@ -9,4 +9,6 @@ public interface Logics {
     boolean hit(Pair<Integer, Integer> pair);
 
     List<Pair<Integer, Integer>> getMinesPositions();
+
+    int getNumberOfAdjacentMines(Pair<Integer, Integer> position);
 }
