@@ -36,4 +36,9 @@ public class LogicsImpl implements Logics {
     private Pair<Integer, Integer> generateRandomPosition() {
         return new Pair<>(this.random.nextInt(this.size), this.random.nextInt(this.size));
     }
+
+    @Override
+    public boolean hit(final Pair<Integer, Integer> pair) {
+        return this.mines.contains(pair);
+    }
 }

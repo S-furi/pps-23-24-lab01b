@@ -2,6 +2,7 @@ package e2;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -28,6 +29,12 @@ public class LogicsTest {
     void logicsShouldHaveRightAmountOfMines() {
         final List<Pair<Integer, Integer>> minesFound = this.extractMinesPosition();
         assertEquals(numberOfMines, minesFound.size());
+    }
+
+    @Test
+    void hittingAMineShouldReturnTrue() {
+        final List<Pair<Integer, Integer>> mines = this.extractMinesPosition();
+        assertTrue(this.logics.hit(mines.get(0)));
     }
 
     private List<Pair<Integer, Integer>> extractMinesPosition() {
