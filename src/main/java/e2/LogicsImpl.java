@@ -4,10 +4,13 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Random;
 
+import e2.cell.Cell;
+import e2.cell.MineCell;
+
 public class LogicsImpl implements Logics {
     final int size;
     final int numberOfMines;
-    private final List<Pair<Integer, Integer>> mines;
+    private final List<? extends Cell> mines;
     private final Random random = new Random();
 
     public LogicsImpl(final int size, final int numberOfMines) {
@@ -18,10 +21,10 @@ public class LogicsImpl implements Logics {
     
     @Override
     public boolean hasMine(final Pair<Integer, Integer> position) {
-        return this.mines.contains(position);
+        return this.mines.stream().anyMatch(mine -> mine.getPosition().equals(position));
     }
     
-    private List<Pair<Integer, Integer>> generateMines() {
+    private List<? extends Cell> generateMines() {
         final List<Pair<Integer, Integer>> generatedMines = new ArrayList<>();
         for (int i = 0; i < this.numberOfMines; i++) {
             Pair<Integer, Integer> minePosition = generateRandomPosition();
@@ -30,7 +33,7 @@ public class LogicsImpl implements Logics {
             }
             generatedMines.add(minePosition);
         }
-        return List.copyOf(generatedMines);
+        return generatedMines.stream().map(pos -> new MineCell(pos)).toList();
     }
 
     private Pair<Integer, Integer> generateRandomPosition() {
@@ -38,7 +41,7 @@ public class LogicsImpl implements Logics {
     }
 
     @Override
-    public boolean hit(final Pair<Integer, Integer> pair) {
-        return this.mines.contains(pair);
+    public boolean hit(final Pair<Integer, Integer> position) {
+        return this.hasMine(position);
     }
 }
