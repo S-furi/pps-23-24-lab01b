@@ -1,0 +1,39 @@
+@startuml e1
+' skinparam groupInheritance 2
+
+interface Logics {
+  + hit(row: int, col: int): bool
+  + hasKnight(row: int, col: int): bool
+  + hasPawn(row: int, col: int): bool
+}
+
+class LogicsImpl implements Logics {
+
+}
+
+interface PositioningPolicy {
+  + getKnightPosition(): Pair<Integer, Integer>
+  + getPawnPosition(): Pair<Integer, Integer>
+  + moveKnight(row: int, col: int): void
+}
+
+class DeterministicPositioningPolicy implements PositioningPolicy {
+
+}
+
+class RandomPositioningPolicy implements PositioningPolicy {
+ - random: Random
+}
+
+interface HitStrategy {
+  + hit(knight, pawn, newPosition)
+  + canMove(fromPosition, toPosition)
+}
+
+class KnightHitStrategy implements HitStrategy {}
+
+LogicsImpl o-left- PositioningPolicy
+LogicsImpl o-right- HitStrategy
+RandomPositioningPolicy -right-> DeterministicPositioningPolicy
+
+@enduml

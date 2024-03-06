@@ -1,0 +1,21 @@
+@startuml e1
+
+abstract class AbstractLogicTest { }
+class DeterministicLogicTest extends AbstractLogicTest {}
+class RandomLogicTest extends AbstractLogicTest {}
+
+abstract class AbstractPositioningPolicyTest {}
+class DeterministicPositioningPolicyTest extends AbstractPositioningPolicyTest {}
+class RandomPositioningPolicyTest extends AbstractPositioningPolicyTest {}
+
+class KnightHitStrategyTest
+
+interface Logics
+interface PositioningPolicy
+interface HitStrategy
+
+AbstractLogicTest -up-> Logics
+AbstractPositioningPolicyTest -up-> PositioningPolicy
+KnightHitStrategyTest -up-> HitStrategy
+
+@enduml
