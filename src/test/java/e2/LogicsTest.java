@@ -26,6 +26,11 @@ public class LogicsTest {
 
     @Test
     void logicsShouldHaveRightAmountOfMines() {
+        final List<Pair<Integer, Integer>> minesFound = this.extractMinesPosition();
+        assertEquals(numberOfMines, minesFound.size());
+    }
+
+    private List<Pair<Integer, Integer>> extractMinesPosition() {
         final List<Pair<Integer, Integer>> minesFound = new ArrayList<>();
 
         for (int i = 0; i < this.size; i++) {
@@ -36,7 +41,6 @@ public class LogicsTest {
                 }
             }
         }
-
-        assertEquals(numberOfMines, minesFound.size());
+        return List.copyOf(minesFound);
     }
 }
