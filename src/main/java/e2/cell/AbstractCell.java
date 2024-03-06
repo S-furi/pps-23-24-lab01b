@@ -20,4 +20,10 @@ public class AbstractCell implements Cell {
     public Object getType() {
         return this.type;
     }
+
+    @Override
+    public boolean isAdjacent(final Cell other) {
+        return Math.abs(this.position.getX() - other.getPosition().getX()) <= 1
+                && Math.abs(this.position.getY() - other.getPosition().getY()) <= 1;
+    }
 }

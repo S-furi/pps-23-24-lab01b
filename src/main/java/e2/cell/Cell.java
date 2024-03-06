@@ -8,4 +8,5 @@ public interface Cell {
 
     Object getType();
 
+    boolean isAdjacent(Cell other);
 }
