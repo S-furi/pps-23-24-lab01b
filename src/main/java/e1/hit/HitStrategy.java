@@ -9,4 +9,6 @@ public interface HitStrategy {
         Pair<Integer, Integer> pawnPosition,
         Pair<Integer, Integer> newKnightPosition
     );
+
+    boolean canMove(Pair<Integer, Integer> fromPosition, Pair<Integer, Integer> toPosition);
 }
