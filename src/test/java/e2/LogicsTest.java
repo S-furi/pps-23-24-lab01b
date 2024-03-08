@@ -1,12 +1,10 @@
 package e2;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
-import java.util.Random;
 import java.util.stream.IntStream;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -37,25 +35,6 @@ public class LogicsTest {
     }
 
     @Test
-    void hittingAMineShouldReturnTrue() {
-        final List<Pair<Integer, Integer>> mines = this.logics.getMinesPositions();
-        assertTrue(this.logics.hit(mines.get(0)));
-    }
-
-    @Test
-    void notHittingAMineShouldReturnFalse() {
-        final List<Pair<Integer, Integer>> mines = this.logics.getMinesPositions();
-        final Random random = new Random();
-        Pair<Integer, Integer> pos = new Pair<>(random.nextInt(this.size), random.nextInt(this.size));
-
-        while (mines.contains(pos))  {
-            pos = new Pair<>(random.nextInt(this.size), random.nextInt(this.size));
-        }
-
-        assertFalse(this.logics.hit(pos));
-    }
-
-    @Test
     void testCellFullySurroundedByMines() {
         final var onlyMinesLogics = new LogicsImpl(this.size, (this.size * this.size) - 1);
 
@@ -65,6 +44,29 @@ public class LogicsTest {
             .findAny()
             .map(pos -> new EmptyCell(pos)).get();
 
-        assertEquals(8, onlyMinesLogics.getNumberOfAdjacentMines(cell.getPosition()));
+        // Depends if the EmptyCell is in corners, borders or surrounded by mines in every edge.
+        final List<Integer> expectedValues = List.of(3, 5, 8);
+        assertTrue(expectedValues.contains(onlyMinesLogics.getNumberOfAdjacentMines(cell.getPosition())));
+    }
+
+    @Test
+    void cellClickShouldChangeCellStatus() {
+        final Pair<Integer, Integer> cellPosition = this.getEmptyCells().get(0).getPosition();
+        
+        this.logics.click(cellPosition);
+        assertTrue(this.logics.getCellAtPosition(cellPosition).get().isClicked());
+    }
+
+    @Test
+    void clickingOnAnEmptyCellShuldCauseNeighborsAutoClick() {
+
+    }
+
+    private List<? extends Cell> getEmptyCells() {
+        return IntStream.range(0, this.size * this.size)
+            .mapToObj(i -> new Pair<Integer, Integer>(i / this.size, i % this.size))
+            .filter(pos -> !this.logics.hasMine(pos))
+            .map(pos -> new EmptyCell(pos))
+            .toList();
     }
 }

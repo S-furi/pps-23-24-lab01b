@@ -5,15 +5,12 @@ import java.util.Optional;
 
 import e2.cell.Cell;
 
-public interface Logics {
-
+public interface Grid {
     boolean hasMine(Pair<Integer, Integer> position);
 
-    void click(Pair<Integer, Integer> position);
-
-    List<Pair<Integer, Integer>> getMinesPositions();
-
-    Optional<? extends Cell> getCellAtPosition(Pair<Integer, Integer> position);
+    List<? extends Cell> getMines();
 
     int getNumberOfAdjacentMines(Pair<Integer, Integer> position);
+
+    Optional<? extends Cell> getCellAtPosition(Pair<Integer, Integer> position);
 }
