@@ -38,11 +38,17 @@ public class LogicsImpl implements Logics {
 
     @Override
     public void click(final Pair<Integer, Integer> position) {
-        final Optional<? extends Cell> cell = this.getCellAtPosition(position);
-        if (cell.isEmpty()) {
-            throw new IllegalArgumentException();
+        final Cell cell = this.getCellAtPosition(position).orElseThrow();
+
+        if (hasMine(position) || cell.isDisabled() || cell.isClicked()) {
+            return;
         }
-        cell.get().click();
+
+        cell.click();
+
+        if (this.getNumberOfAdjacentMines(cell.getPosition()) == 0) {
+            final List<Cell> neighbors = this.grid.getCellNeighborhood(cell);
+            neighbors.stream().map(Cell::getPosition).forEach(this::click);
+        }
     }
 }
-    
