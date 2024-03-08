@@ -51,21 +51,23 @@ public class LogicsTest {
 
     @Test
     void cellClickShouldChangeCellStatus() {
-        final Pair<Integer, Integer> cellPosition = this.getEmptyCells().get(0).getPosition();
-        
+        final Pair<Integer, Integer> cellPosition = this.getEmptyCells(this.logics).get(0).getPosition();
         this.logics.click(cellPosition);
         assertTrue(this.logics.getCellAtPosition(cellPosition).get().isClicked());
     }
 
     @Test
     void clickingOnAnEmptyCellShuldCauseNeighborsAutoClick() {
-
+        final Logics noMinesLogics = new LogicsImpl(3, 0);
+        final Cell center = noMinesLogics.getCellAtPosition(new Pair<>(1, 1)).get();
+        center.click();
+        assertTrue(!this.getEmptyCells(noMinesLogics).stream().anyMatch(cell -> cell.isClicked()));
     }
 
-    private List<? extends Cell> getEmptyCells() {
+    private List<? extends Cell> getEmptyCells(final Logics l) {
         return IntStream.range(0, this.size * this.size)
             .mapToObj(i -> new Pair<Integer, Integer>(i / this.size, i % this.size))
-            .filter(pos -> !this.logics.hasMine(pos))
+            .filter(pos -> !l.hasMine(pos))
             .map(pos -> new EmptyCell(pos))
             .toList();
     }
