@@ -52,4 +52,40 @@ public abstract class AbstractCell implements Cell {
     public boolean isDisabled() {
         return this.status == CellStatus.DISABLED;
     }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((position == null) ? 0 : position.hashCode());
+        result = prime * result + ((type == null) ? 0 : type.hashCode());
+        result = prime * result + ((status == null) ? 0 : status.hashCode());
+        result = prime * result + (hasBeenClicked ? 1231 : 1237);
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        AbstractCell other = (AbstractCell) obj;
+        if (position == null) {
+            if (other.position != null)
+                return false;
+        } else if (!position.equals(other.position))
+            return false;
+        if (type != other.type)
+            return false;
+        if (status != other.status)
+            return false;
+        if (hasBeenClicked != other.hasBeenClicked)
+            return false;
+        return true;
+    }
+
+    
 }
