@@ -6,7 +6,6 @@ public abstract class AbstractCell implements Cell {
     protected final Pair<Integer, Integer> position;
     protected final CellType type;
     protected CellStatus status;
-    protected boolean hasBeenClicked = false;
 
     public AbstractCell(final Pair<Integer, Integer> position, final CellType type) {
         this.position = position;
@@ -60,7 +59,6 @@ public abstract class AbstractCell implements Cell {
         result = prime * result + ((position == null) ? 0 : position.hashCode());
         result = prime * result + ((type == null) ? 0 : type.hashCode());
         result = prime * result + ((status == null) ? 0 : status.hashCode());
-        result = prime * result + (hasBeenClicked ? 1231 : 1237);
         return result;
     }
 
@@ -81,8 +79,6 @@ public abstract class AbstractCell implements Cell {
         if (type != other.type)
             return false;
         if (status != other.status)
-            return false;
-        if (hasBeenClicked != other.hasBeenClicked)
             return false;
         return true;
     }
