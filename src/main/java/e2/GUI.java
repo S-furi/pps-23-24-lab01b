@@ -52,6 +52,12 @@ public class GUI extends JFrame {
                 if (bt.isEnabled()){
                     final Pair<Integer,Integer> pos = buttons.get(bt);
                     // call the logic here to put/remove a flag
+                    logics.toggleFlag(pos);
+                    if (logics.getCellAtPosition(pos).get().hasFlag()) {
+                        bt.setText("X");
+                    } else {
+                        bt.setText("");
+                    }
                 }
                 drawBoard(); 
             }

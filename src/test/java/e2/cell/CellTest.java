@@ -86,7 +86,15 @@ public class CellTest {
 
     @Test
     void cellCannotBeDisabledIfNotClicked() {
-        final Cell cell = new EmptyCell(new Pair<Integer, Integer>(0, 0));
+        final Cell cell = new EmptyCell(new Pair<>(0, 0));
         assertThrows(IllegalStateException.class, () -> cell.disable());
+    }
+
+    @Test
+    void testToggleFlag() {
+        final Cell cell = new EmptyCell(new Pair<>(0, 0));
+        assertFalse(cell.hasFlag());
+        cell.toggleFlag();
+        assertTrue(cell.hasFlag());
     }
 }

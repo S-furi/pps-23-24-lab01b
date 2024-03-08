@@ -1,6 +1,8 @@
 package e2;
 
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -85,6 +87,33 @@ public class LogicsTest {
         final var cell = noMineLogics.getCellAtPosition(new Pair<>(0, 0)).get();
         noMineLogics.click(cell.getPosition());
         assertTrue(noMineLogics.isThereVictory());
+    }
+
+    @Test
+    void testToggleFlagOnCells() {
+        final Cell emptyCell = this.getEmptyCells(this.logics).get(0);
+        final Cell mineCell = this.logics.getCellAtPosition(this.logics.getMinesPositions().get(0)).get();
+
+        assertAll(
+            () -> assertFalse(emptyCell.hasFlag()),
+            () -> assertFalse(mineCell.hasFlag())
+        );
+
+        emptyCell.toggleFlag();
+        mineCell.toggleFlag();
+
+        assertAll(
+            () -> assertTrue(emptyCell.hasFlag()),
+            () -> assertTrue(mineCell.hasFlag())
+        );
+
+        emptyCell.toggleFlag();
+        mineCell.toggleFlag();
+
+        assertAll(
+            () -> assertFalse(emptyCell.hasFlag()),
+            () -> assertFalse(mineCell.hasFlag())
+        );
     }
 
     private List<? extends Cell> getEmptyCells(final Logics l) {

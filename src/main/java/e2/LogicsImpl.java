@@ -61,4 +61,9 @@ public class LogicsImpl implements Logics {
     public boolean isThereVictory() {
         return this.grid.getEmptyCells().stream().anyMatch(cell -> !cell.isDisabled() || !cell.isClicked());
     }
+
+    @Override
+    public void toggleFlag(final Pair<Integer, Integer> position) {
+        this.getCellAtPosition(position).orElseThrow().toggleFlag();
+    }
 }

@@ -13,6 +13,8 @@ public interface Logics {
 
     void disable(Pair<Integer, Integer> position);
 
+    void toggleFlag(Pair<Integer, Integer> position);
+
     List<Pair<Integer, Integer>> getMinesPositions();
 
     Optional<? extends Cell> getCellAtPosition(Pair<Integer, Integer> position);

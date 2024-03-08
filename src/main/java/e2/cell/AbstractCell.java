@@ -3,14 +3,16 @@ package e2.cell;
 import e2.Pair;
 
 public abstract class AbstractCell implements Cell {
-    protected final Pair<Integer, Integer> position;
-    protected final CellType type;
-    protected CellStatus status;
+    private final Pair<Integer, Integer> position;
+    private final CellType type;
+    private boolean hasFlag;
+    private CellStatus status;
 
     public AbstractCell(final Pair<Integer, Integer> position, final CellType type) {
         this.position = position;
         this.type = type;
         this.status = CellStatus.NOT_CLICKED;
+        this.hasFlag = false;
     }
 
     @Override
@@ -53,6 +55,16 @@ public abstract class AbstractCell implements Cell {
     }
 
     @Override
+    public boolean hasFlag() {
+        return this.hasFlag;
+    }
+
+    @Override
+    public void toggleFlag() {
+        this.hasFlag = !this.hasFlag;
+    }
+
+    @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
@@ -82,6 +94,4 @@ public abstract class AbstractCell implements Cell {
             return false;
         return true;
     }
-
-    
 }

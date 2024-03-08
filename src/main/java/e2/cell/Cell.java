@@ -11,10 +11,14 @@ public interface Cell {
     void click();
     
     void disable();
+
+    void toggleFlag();
     
     boolean isAdjacent(Cell other);
     
     boolean isClicked();
 
     boolean isDisabled();
+
+    boolean hasFlag();
 }
