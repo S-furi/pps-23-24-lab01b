@@ -10,6 +10,8 @@ public interface Grid {
 
     List<? extends Cell> getMines();
 
+    List<? extends Cell> getEmptyCells();
+
     int getNumberOfAdjacentMines(Pair<Integer, Integer> position);
 
     Optional<? extends Cell> getCellAtPosition(Pair<Integer, Integer> position);

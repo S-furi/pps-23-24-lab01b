@@ -28,7 +28,7 @@ public class GridImpl implements Grid {
         System.out.println("Generated mines at positions:");
         this.mines.stream().map(mine -> mine.getPosition()).forEach(System.out::println);
     }
-
+    
     @Override
     public int getNumberOfAdjacentMines(final Pair<Integer, Integer> position) {
         final var cell = this.getCellAtPosition(position);
@@ -37,22 +37,48 @@ public class GridImpl implements Grid {
         }
         return Math.toIntExact(this.mines.stream().filter(mine -> cell.get().isAdjacent(mine)).count());
     }
-
+    
     @Override
     public Optional<? extends Cell> getCellAtPosition(final Pair<Integer, Integer> position) {
         return Stream.concat(this.emptyCells.stream(), this.mines.stream())
-            .filter(cell -> cell.getPosition().equals(position)).findFirst();
+        .filter(cell -> cell.getPosition().equals(position)).findFirst();
     }
-
+    
     @Override
     public boolean hasMine(final Pair<Integer, Integer> position) {
         return this.mines.stream().anyMatch(mine -> mine.getPosition().equals(position));
     }
 
-
     @Override
     public List<? extends Cell> getMines() {
         return this.mines;
+    }
+    
+    @Override
+    public List<? extends Cell> getEmptyCells() {
+        return this.emptyCells;
+    }
+
+    @Override
+    public List<Cell> getCellNeighborhood(final Cell cell) {
+        final List<Cell> neighbors = new ArrayList<>();
+
+        for (int x = -1; x <= 1; x++) {
+            for (int y = -1; y <= 1; y++) {
+                if (x == 0 && y == 0) {
+                    continue;
+                }
+
+                final Pair<Integer, Integer> position = new Pair<>(
+                        cell.getPosition().getX() + x,
+                        cell.getPosition().getY() + y);
+
+                this.emptyCells.stream()
+                        .filter(c -> c.getPosition().equals(position))
+                        .findFirst().ifPresent(c -> neighbors.add(c));
+            }
+        }
+        return neighbors;
     }
 
     private List<? extends Cell> generateMines() {
@@ -77,28 +103,5 @@ public class GridImpl implements Grid {
 
     private Pair<Integer, Integer> generateRandomPosition() {
         return new Pair<>(this.random.nextInt(this.size), this.random.nextInt(this.size));
-    }
-
-    @Override
-    public List<Cell> getCellNeighborhood(final Cell cell) {
-        final List<Cell> neighbors = new ArrayList<>();
-
-        for (int x = -1; x <= 1; x++) {
-            for (int y = -1; y <= 1; y++) {
-                if (x == 0 && y == 0) {
-                    continue;
-                }
-
-                final Pair<Integer, Integer> position = new Pair<>(
-                        cell.getPosition().getX() + x,
-                        cell.getPosition().getY() + y
-                );
-
-                this.emptyCells.stream()
-                    .filter(c -> c.getPosition().equals(position))
-                    .findFirst().ifPresent(c -> neighbors.add(c));
-            }
-        }
-        return neighbors;
     }
 }
