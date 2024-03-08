@@ -8,13 +8,13 @@ public interface Cell {
 
     CellType getType();
 
-    boolean isAdjacent(Cell other);
-
     void click();
-
-    boolean isClicked();
-
+    
     void disable();
+    
+    boolean isAdjacent(Cell other);
+    
+    boolean isClicked();
 
     boolean isDisabled();
 }
