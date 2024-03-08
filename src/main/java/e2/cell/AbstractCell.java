@@ -44,7 +44,12 @@ public abstract class AbstractCell implements Cell {
     }
 
     @Override
-    public CellStatus getStatus() {
-        return this.status;
+    public boolean isClicked() {
+        return this.status == CellStatus.CLICKED;
+    }
+
+    @Override
+    public boolean isDisabled() {
+        return this.status == CellStatus.DISABLED;
     }
 }

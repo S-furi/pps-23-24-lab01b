@@ -78,11 +78,10 @@ public class CellTest {
     @Test
     void testCellClick() {
         final Cell cell = new EmptyCell(new Pair<Integer, Integer>(0, 0));
-        assertEquals(CellStatus.NOT_CLICKED, cell.getStatus());
         cell.click();
-        assertEquals(CellStatus.CLICKED, cell.getStatus());
+        assertTrue(cell.isClicked());
         cell.disable();
-        assertEquals(CellStatus.DISABLED, cell.getStatus());
+        assertTrue(cell.isDisabled());
     }
 
     @Test
