@@ -11,9 +11,13 @@ public interface Logics {
 
     void click(Pair<Integer, Integer> position);
 
+    void disable(Pair<Integer, Integer> position);
+
     List<Pair<Integer, Integer>> getMinesPositions();
 
     Optional<? extends Cell> getCellAtPosition(Pair<Integer, Integer> position);
 
     int getNumberOfAdjacentMines(Pair<Integer, Integer> position);
+
+    boolean isThereVictory();
 }

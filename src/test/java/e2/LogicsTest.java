@@ -2,6 +2,7 @@ package e2;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
@@ -47,6 +48,20 @@ public class LogicsTest {
         // Depends if the EmptyCell is in corners, borders or surrounded by mines in every edge.
         final List<Integer> expectedValues = List.of(3, 5, 8);
         assertTrue(expectedValues.contains(onlyMinesLogics.getNumberOfAdjacentMines(cell.getPosition())));
+    }
+
+    @Test
+    void testDisableWhenNotClickedShouldThrowException() {
+        final Cell cell = this.getEmptyCells(this.logics).get(0);
+        assertThrows(IllegalStateException.class, () -> this.logics.disable(cell.getPosition()));
+    }
+
+    @Test
+    void testDisableAfterClickShouldDisableCell() {
+        final Cell cell = this.getEmptyCells(this.logics).get(0);
+        this.logics.click(cell.getPosition());
+        this.logics.disable(cell.getPosition());
+        assertTrue(this.logics.getCellAtPosition(cell.getPosition()).get().isDisabled());
     }
 
     @Test

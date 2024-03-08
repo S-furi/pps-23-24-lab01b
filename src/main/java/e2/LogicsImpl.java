@@ -51,4 +51,16 @@ public class LogicsImpl implements Logics {
             neighbors.stream().map(Cell::getPosition).forEach(this::click);
         }
     }
+
+    @Override
+    public void disable(Pair<Integer, Integer> position) {
+        this.getCellAtPosition(position).orElseThrow().disable();
+    }
+
+    @Override
+    public boolean isThereVictory() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'isThereVictory'");
+    }
+
 }
