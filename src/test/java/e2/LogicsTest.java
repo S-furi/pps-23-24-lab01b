@@ -14,7 +14,6 @@ import org.junit.jupiter.api.Test;
 
 import e2.cell.Cell;
 import e2.cell.EmptyCell;
-import e2.cell.MineCell;
 
 public class LogicsTest {
     private final int size = 7;
