@@ -6,7 +6,13 @@ public interface Cell {
 
     Pair<Integer, Integer> getPosition();
 
-    Object getType();
+    CellType getType();
+
+    CellStatus getStatus();
 
     boolean isAdjacent(Cell other);
+
+    void click();
+
+    void disable();
 }

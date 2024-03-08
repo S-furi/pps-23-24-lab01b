@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
@@ -72,5 +73,21 @@ public class CellTest {
 
         assertFalse(cell.isAdjacent(other));
         assertFalse(other.isAdjacent(cell));
+    }
+
+    @Test
+    void testCellClick() {
+        final Cell cell = new EmptyCell(new Pair<Integer, Integer>(0, 0));
+        assertEquals(CellStatus.NOT_CLICKED, cell.getStatus());
+        cell.click();
+        assertEquals(CellStatus.CLICKED, cell.getStatus());
+        cell.disable();
+        assertEquals(CellStatus.DISABLED, cell.getStatus());
+    }
+
+    @Test
+    void cellCannotBeDisabledIfNotClicked() {
+        final Cell cell = new EmptyCell(new Pair<Integer, Integer>(0, 0));
+        assertThrows(IllegalStateException.class, () -> cell.disable());
     }
 }
