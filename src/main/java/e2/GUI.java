@@ -4,6 +4,8 @@ import javax.swing.*;
 import javax.swing.event.MouseInputAdapter;
 import javax.swing.event.MouseInputListener;
 
+import e2.cell.Cell;
+
 import java.util.*;
 import java.util.List;
 import java.awt.*;
@@ -32,6 +34,7 @@ public class GUI extends JFrame {
                 quitGame();
                 JOptionPane.showMessageDialog(this, "You lost!!");
             } else {
+                this.logics.click(pos);
                 drawBoard();            	
             }
             boolean isThereVictory = false; // call the logic here to ask if there is victory
@@ -82,11 +85,24 @@ public class GUI extends JFrame {
     }
 
     private void drawBoard() {
-        for (var entry: this.buttons.entrySet()) {
+        for (final Map.Entry<JButton, Pair<Integer, Integer>> entry: this.buttons.entrySet()) {
             // call the logic here
             // if this button is a cell with counter, put the number
             // if this button has a flag, put the flag
+            final Cell cell = this.logics.getCellAtPosition(entry.getValue()).orElseThrow(() ->
+                new IllegalArgumentException("Cannot find a cell in position: " + entry.getValue())
+            );
+
+            if (cell.isDisabled()) {
+                continue;
+            }
+
+            if (cell.isClicked()) {
+                final JButton button = entry.getKey();
+                button.setEnabled(false);
+                final int adjacentMinesNumber = this.logics.getNumberOfAdjacentMines(cell.getPosition());
+                button.setText(adjacentMinesNumber == 0 ? "" : "" + adjacentMinesNumber);
+            }
     	}
     }
-    
 }
