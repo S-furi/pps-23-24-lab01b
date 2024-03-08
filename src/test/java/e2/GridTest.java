@@ -70,4 +70,56 @@ public class GridTest {
         final List<Integer> expectedValues = List.of(3, 5, 8);
         assertTrue(expectedValues.contains(onlyMinesGrid.getNumberOfAdjacentMines(cell.getPosition())));
     }
+
+    @Test
+    void testEmptyCenterCellShouldHaveEightNeighbors() {
+        final Grid noMinesGrid = new GridImpl(3, 0);
+        final Cell center = noMinesGrid.getCellAtPosition(new Pair<>(1, 1)).get();
+
+        final List<Cell> expectedNeighbors = List.of(
+            new EmptyCell(new Pair<>(0, 0)),
+            new EmptyCell(new Pair<>(0, 1)),
+            new EmptyCell(new Pair<>(0, 2)),
+            new EmptyCell(new Pair<>(1, 0)),
+            new EmptyCell(new Pair<>(1, 2)),
+            new EmptyCell(new Pair<>(2, 0)),
+            new EmptyCell(new Pair<>(2, 1)),
+            new EmptyCell(new Pair<>(2, 2))
+        );
+
+        final var neighbors = noMinesGrid.getCellNeighborhood(center);
+        assertTrue(neighbors.containsAll(expectedNeighbors));
+    }
+
+    @Test
+    void testEmptyTopLeftCornerCellShouldHaveThreeNeighbors() {
+        final Grid noMinesGrid = new GridImpl(3, 0);
+        final Cell topLeftCorner = noMinesGrid.getCellAtPosition(new Pair<>(0, 0)).get();
+
+        final List<Cell> expectedNeighbors = List.of(
+            new EmptyCell(new Pair<>(1, 0)),
+            new EmptyCell(new Pair<>(1, 1)),
+            new EmptyCell(new Pair<>(0, 1))
+        );
+
+        final var neighbors = noMinesGrid.getCellNeighborhood(topLeftCorner);
+        assertTrue(neighbors.containsAll(expectedNeighbors));
+    }
+
+    @Test
+    void testEmptyBottomEdgeCellShouldHaveFiveNeighbors() {
+        final Grid noMinesGrid = new GridImpl(3, 0);
+        final Cell bottomEdge = noMinesGrid.getCellAtPosition(new Pair<>(2, 1)).get();
+
+        final List<Cell> expectedNeighbors = List.of(
+            new EmptyCell(new Pair<>(2, 0)),
+            new EmptyCell(new Pair<>(2, 2)),
+            new EmptyCell(new Pair<>(1, 0)),
+            new EmptyCell(new Pair<>(1, 1)),
+            new EmptyCell(new Pair<>(1, 2))
+        );
+
+        final var neighbors = noMinesGrid.getCellNeighborhood(bottomEdge);
+        assertTrue(neighbors.containsAll(expectedNeighbors));
+    }
 }

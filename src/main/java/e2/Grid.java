@@ -13,4 +13,6 @@ public interface Grid {
     int getNumberOfAdjacentMines(Pair<Integer, Integer> position);
 
     Optional<? extends Cell> getCellAtPosition(Pair<Integer, Integer> position);
+
+    List<Cell> getCellNeighborhood(Cell cell);
 }

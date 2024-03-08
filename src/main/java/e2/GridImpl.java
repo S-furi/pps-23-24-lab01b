@@ -78,4 +78,27 @@ public class GridImpl implements Grid {
     private Pair<Integer, Integer> generateRandomPosition() {
         return new Pair<>(this.random.nextInt(this.size), this.random.nextInt(this.size));
     }
+
+    @Override
+    public List<Cell> getCellNeighborhood(final Cell cell) {
+        final List<Cell> neighbors = new ArrayList<>();
+
+        for (int x = -1; x <= 1; x++) {
+            for (int y = -1; y <= 1; y++) {
+                if (x == 0 && y == 0) {
+                    continue;
+                }
+
+                final Pair<Integer, Integer> position = new Pair<>(
+                        cell.getPosition().getX() + x,
+                        cell.getPosition().getY() + y
+                );
+
+                this.emptyCells.stream()
+                    .filter(c -> c.getPosition().equals(position))
+                    .findFirst().ifPresent(c -> neighbors.add(c));
+            }
+        }
+        return neighbors;
+    }
 }
