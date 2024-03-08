@@ -75,8 +75,16 @@ public class LogicsTest {
     void clickingOnAnEmptyCellShuldCauseNeighborsAutoClick() {
         final Logics noMinesLogics = new LogicsImpl(3, 0);
         final Cell center = noMinesLogics.getCellAtPosition(new Pair<>(1, 1)).get();
-        center.click();
+        noMinesLogics.click(center.getPosition());
         assertTrue(!this.getEmptyCells(noMinesLogics).stream().anyMatch(cell -> cell.isClicked()));
+    }
+
+    @Test
+    void testWinOnNoMinesLogic() {
+        final Logics noMineLogics = new LogicsImpl(3, 0);
+        final var cell = noMineLogics.getCellAtPosition(new Pair<>(0, 0)).get();
+        noMineLogics.click(cell.getPosition());
+        assertTrue(noMineLogics.isThereVictory());
     }
 
     private List<? extends Cell> getEmptyCells(final Logics l) {

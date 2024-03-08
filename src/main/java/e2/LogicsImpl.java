@@ -53,14 +53,12 @@ public class LogicsImpl implements Logics {
     }
 
     @Override
-    public void disable(Pair<Integer, Integer> position) {
+    public void disable(final Pair<Integer, Integer> position) {
         this.getCellAtPosition(position).orElseThrow().disable();
     }
 
     @Override
     public boolean isThereVictory() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'isThereVictory'");
+        return this.grid.getEmptyCells().stream().anyMatch(cell -> !cell.isDisabled() || !cell.isClicked());
     }
-
 }
