@@ -1,0 +1,14 @@
+@startuml e2-test
+
+interface Cell
+interface Grid
+interface Logics
+
+CellTest -down-> Cell
+GridTest -down-> Grid
+GridTest -down-> Cell
+LogicsTest -down-> Logics
+LogicsTest -down-> Grid
+
+
+@enduml
