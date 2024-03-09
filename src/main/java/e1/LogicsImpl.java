@@ -21,13 +21,13 @@ public class LogicsImpl implements Logics {
 
 	@Override
 	public boolean hit(int row, int col) {
-		final Pair<Integer, Integer> knightPosition = this.positioningPolicy.getKnightPosition();
-		final Pair<Integer, Integer> pawnPosition = this.positioningPolicy.getPawnPosition();
-		final Pair<Integer, Integer> newPosition = new Pair<>(row, col);
-
 		if ((row < 0 || col < 0) || (row >= this.size || col >= this.size)) {
 			throw new IndexOutOfBoundsException();
 		}
+
+		final Pair<Integer, Integer> knightPosition = this.positioningPolicy.getKnightPosition();
+		final Pair<Integer, Integer> pawnPosition = this.positioningPolicy.getPawnPosition();
+		final Pair<Integer, Integer> newPosition = new Pair<>(row, col);
 
 		final HitStatus hitStatus = this.hitStrategy.hit(knightPosition, pawnPosition, newPosition);
 		if (hitStatus.equals(HitStatus.NOT_ALLOWED)) {
