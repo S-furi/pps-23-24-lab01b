@@ -1,0 +1,44 @@
+@startuml e2
+
+interface Logics {
+    + hasMine(position: Pair): bool
+    + click(position: Pair): void
+    + disable(position: Pair): void
+    + toggleFlag(position: Pair): void
+    + getNumberOfAdjacentMines(position: Pair): int
+    + isThereVictory(): bool
+}
+
+interface Grid {
+    + hasMine(position: Pair): bool
+    + getNumberOfAdjacentMines(position: Pair): int
+    + getCellAtPosition(position: Pair): Optional<Cell>
+    + getCellNeighborhood(cell: Cell): List<Cell>
+}
+
+interface Cell {
+    + getPosition(): Pair
+    + getType(): CellType
+    + isAdjacent(other: Cell): bool
+    + isClicked(): bool
+    + isDisabled(): bool
+    + hasFlag(): bool
+}
+
+abstract class AbstractCell {
+    - cellType: CellType
+    - cellStatus: CellStatus
+}
+
+AbstractCell -up-|> Cell
+EmptyCell -up-|> AbstractCell
+MineCell -up-|> AbstractCell
+
+GridImpl -down-|> Grid
+
+LogicsImpl -up-|> Logics
+
+LogicsImpl "1..*" o-left- Grid
+Grid "1..*" o-down- Cell
+
+@enduml
