@@ -43,9 +43,10 @@ public class GridTest {
     void testHasMineShouldBeFalseOnAnEmptyCell() {
         Cell cell = null;
 
+        // Find first EmptyCell
         for (int i = 0; i < this.size; i++) {
             for (int j = 0; j < this.size; j++) {
-                final var pos = new Pair<>(0, 0);
+                final var pos = new Pair<>(i, j);
                 if (!this.grid.hasMine(pos)) {
                     cell = this.grid.getCellAtPosition(pos).get();
                     break;
@@ -58,17 +59,17 @@ public class GridTest {
 
     @Test
     void testNumberOfAdjacentMinesOfFullySurroundedCell() {
-        final var onlyMinesGrid = new GridImpl(this.size, (this.size * this.size) - 1);
+        final var onlyOneEmptyCellGrid = new GridImpl(this.size, (this.size * this.size) - 1);
 
         final Cell cell = IntStream.range(0, this.size * this.size)
             .mapToObj(i -> new Pair<Integer, Integer>(i / this.size, i % this.size))
-            .filter(pos -> !onlyMinesGrid.hasMine(pos))
+            .filter(pos -> !onlyOneEmptyCellGrid.hasMine(pos))
             .findAny()
             .map(pos -> new EmptyCell(pos)).get();
 
         // Depends if the EmptyCell is in corners, borders or surrounded by mines in every edge.
         final List<Integer> expectedValues = List.of(3, 5, 8);
-        assertTrue(expectedValues.contains(onlyMinesGrid.getNumberOfAdjacentMines(cell.getPosition())));
+        assertTrue(expectedValues.contains(onlyOneEmptyCellGrid.getNumberOfAdjacentMines(cell.getPosition())));
     }
 
     @Test
